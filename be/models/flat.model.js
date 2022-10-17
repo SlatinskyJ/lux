@@ -1,15 +1,15 @@
 const format = require('pg-format');
 
-const getFlats = (client) => {
+const getFlats = (client, pageNumber, pageSize) => {
 	return new Promise((resolve, reject) => {
-		client.query("SELECT * FROM flats")
-			.then(results => {
-				resolve(results.rows);
-			})
-			.catch(error => {
-				console.error(error);
-				reject(error);
-			});
+		client.query(`SELECT * FROM flats OFFSET ${(pageNumber-1)*pageSize} ROWS FETCH NEXT ${pageSize} ROWS ONLY`)
+		.then(results => {
+			resolve(results.rows);
+		})
+		.catch(error => {
+			console.error(error);
+			reject(error);
+		});
 	});
 };
 

@@ -14,14 +14,15 @@ services:
     networks:
       - backend
 
-  app:
-    container_name: app
+  be:
+    container_name: be
     build:
-      context: ./app
+      context: ./be
     depends_on:
-      - db
+      db:
+        condition: service_started
     ports:
-     - '8080:8080'
+      - '3000:3000'
     links:
       - db
     environment:
@@ -30,12 +31,30 @@ services:
       - PGPASSWORD=example
       - PGDATABASE=postgres
       - PGPORT=5432
-      - PORT=8080
+      - PORT=3000
+      - FEPORT=8080
     networks:
       - backend
+      - frontend
+
+  fe:
+    container_name: fe
+    build:
+      context: ./fe
+    depends_on:
+      be:
+        condition: service_started
+    ports:
+      - '8080:80'
+    environment:
+      - PORT=8080
+    networks:
+      - frontend
 
 networks:
   backend:
+    driver: bridge
+  frontend:
     driver: bridge
 
 volumes:

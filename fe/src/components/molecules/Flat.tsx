@@ -11,21 +11,20 @@ export default function FlatTile({title, img}: Props) {
 	return (
 		<Tile>
 			<Image src={img} alt="Flat image missing"/>
-			<FlatTitle>{title}</FlatTitle>
+			<FlatTitle align="center">{title}</FlatTitle>
 		</Tile>
 	)
 }
 
 const Tile = styled.div`
-	margin: 10px;
-  	width: 350px;
+  margin: 10px;
+  width: 300px;
 `
 
 const Image = styled.img`
-  	width: 350px;
+  width: 300px;
 `
 
 const FlatTitle = styled(Typography)`
-  	font-size: large;
-  	padding-left: 10px;
+  font-size: large;
 `
